@@ -41,7 +41,8 @@ public class Main extends JFrame implements Runnable {
             public void actionPerformed(ActionEvent actionEvent) {
                 if (actionEvent.getSource() == b1){
                     try {
-                        send_data(title_of_file.getText() + "//" + data_in_file.getText());
+                        if (title_of_file.getText().length() == 0 || data_in_file.getText().length() == 0) return;
+                        send_data(title_of_file.getText() + "//" + data_in_file.getText()); // объединаяем в одну строку, т.к. write object принимает один аргумент
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
