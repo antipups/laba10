@@ -1,5 +1,7 @@
 package com.company;
 
+import org.w3c.dom.ls.LSOutput;
+
 import javax.swing.*;
 import java.io.*;
 import java.net.InetAddress;
@@ -17,13 +19,11 @@ public class Server implements Runnable {
     @Override
     public void run() {
         try {
-            server = new ServerSocket(1234, 2);
+            server = new ServerSocket(1234, 2); // конектимся к порту 1234 , кол-во коннектов максимум 2
+            connection = server.accept();   // получение сигнала от юзера
+            input = new ObjectInputStream(connection.getInputStream()); // потом приема данных на серве
             while(true){
-                connection = server.accept();
-                output = new ObjectOutputStream(connection.getOutputStream());
-                input = new ObjectInputStream(connection.getInputStream());
-                String workString = (String)input.readObject();
-                System.out.println("Зашел");
+                String workString = (String)input.readObject(); // считываем данные отправленные от клиента
                 String title_of_file = workString.substring(0, workString.indexOf("//"));  // получаем индекс разделителя, и получаем из общей строки имя файла
                 File f = new File(title_of_file);
                 if (f.exists()) f.delete();
